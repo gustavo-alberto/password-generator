@@ -392,7 +392,7 @@ button {
   font-size: clamp(1.25rem, 5vw, 1.625rem);
   line-height: 1.4;
   letter-spacing: 0.02em;
-  word-break: break-all;
+  /* Breaks at separators when possible (passphrases), anywhere otherwise (passwords). */
   overflow-wrap: anywhere;
   user-select: all;
 }
@@ -651,6 +651,56 @@ fieldset {
 .chip[aria-pressed='true']::before {
   content: '✓ ';
   color: var(--accent);
+}
+
+/* Single-choice chips: a native radio inside a label, visually hidden but focusable. */
+.chip--radio {
+  position: relative;
+  display: inline-flex;
+  align-items: center;
+  cursor: pointer;
+}
+
+.chip--radio input {
+  position: absolute;
+  inset: 0;
+  margin: 0;
+  opacity: 0;
+  cursor: pointer;
+}
+
+.chip--radio:has(input:checked) {
+  border-color: var(--accent);
+  background: var(--accent-soft);
+  color: var(--text);
+}
+
+.chip--radio:has(input:checked)::before {
+  content: '✓ ';
+  white-space: pre;
+  color: var(--accent);
+}
+
+.chip--radio:has(input:focus-visible) {
+  box-shadow: var(--focus-ring);
+}
+
+.separator-input {
+  width: 4.5rem;
+  min-height: var(--target);
+  text-align: center;
+}
+
+.panel__info {
+  color: var(--text-muted);
+  font-size: 0.875rem;
+}
+
+.panel__warning {
+  padding: var(--space-2) var(--space-3);
+  border-left: 3px solid var(--strength-2);
+  color: var(--text);
+  font-size: 0.9375rem;
 }
 
 .chip--mono {

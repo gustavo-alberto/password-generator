@@ -74,6 +74,30 @@ export default Object.freeze({
   alsoInclude: 'Incluir também',
   excludeChars: 'Excluir',
 
+  // Passphrase options
+  wordCount: 'Palavras',
+  separator: 'Separador',
+  separatorSpace: 'Espaço',
+  separatorCustom: 'Outro',
+  separatorCustomLabel: 'Separador personalizado',
+  casing: 'Formato',
+  casingLower: 'minúsculas',
+  casingUpper: 'MAIÚSCULAS',
+  casingCapital: 'Capitalizada',
+  casingCamel: 'camelCase',
+  upperOneWord: 'Uma palavra em MAIÚSCULAS',
+  addDigit: 'Incluir um número',
+  addSymbol: 'Incluir um símbolo',
+  addSymbolHelp: 'Um de ! @ # $ % & * ?',
+  wordlistInfo: 'Lista: {name} · {size} palavras',
+  wordlistNameEn: 'EFF (inglês)',
+  wordlistNamePt: 'drebs (português do Brasil)',
+  loadingWordlist: 'Carregando lista de palavras…',
+
+  // PIN options
+  pinLength: 'Dígitos',
+  pinShortWarning: 'PINs com menos de 6 dígitos são fáceis de adivinhar.',
+
   // Errors
   errCrypto: 'Seu navegador não oferece números aleatórios seguros, então nada pode ser gerado.',
   errCopy: 'Não foi possível copiar. Selecione e copie manualmente.',
@@ -81,6 +105,8 @@ export default Object.freeze({
   errTooShort: 'Tamanho menor que o número de grupos',
   errTooManyAttempts: 'Essas opções são restritivas demais. Tente um tamanho maior.',
   errInvalidLength: 'Informe um valor de {min} a {max}',
+  errInvalidSeparator: 'Use até 3 caracteres visíveis como separador',
+  errWordlist: 'Não foi possível carregar a lista de palavras. Verifique a conexão e tente de novo.',
 
   // Footer
   footerPrivacy: 'Nenhuma senha é enviada ou armazenada. Tudo acontece no seu navegador.',

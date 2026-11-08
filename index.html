@@ -182,9 +182,81 @@
 
         <section id="panel-passphrase" class="card panel" role="tabpanel" aria-labelledby="tab-passphrase" hidden>
           <h2 class="panel__title" data-i18n="optionsTitle">Options</h2>
+
+          <div class="field">
+            <div class="field__row">
+              <label class="field__label" for="passphrase-words" data-i18n="wordCount">Words</label>
+              <input class="number-input" id="passphrase-words-number" type="number" inputmode="numeric" aria-label="Words" data-i18n-aria-label="wordCount" />
+            </div>
+            <input class="range" id="passphrase-words" type="range" />
+          </div>
+
+          <fieldset class="field">
+            <legend class="field__label" data-i18n="separator">Separator</legend>
+            <div class="chips">
+              <label class="chip chip--radio"><input type="radio" name="separator" value=" " /><span data-i18n="separatorSpace">Space</span></label>
+              <label class="chip chip--radio chip--mono"><input type="radio" name="separator" value="-" /><span>-</span></label>
+              <label class="chip chip--radio chip--mono"><input type="radio" name="separator" value="_" /><span>_</span></label>
+              <label class="chip chip--radio chip--mono"><input type="radio" name="separator" value="." /><span>.</span></label>
+              <label class="chip chip--radio"><input type="radio" name="separator" value="custom" /><span data-i18n="separatorCustom">Custom</span></label>
+              <input
+                class="text-input text-input--mono separator-input"
+                id="separator-custom-input"
+                type="text"
+                maxlength="3"
+                spellcheck="false"
+                autocomplete="off"
+                autocapitalize="off"
+                autocorrect="off"
+                aria-label="Custom separator"
+                data-i18n-aria-label="separatorCustomLabel"
+                placeholder="+"
+              />
+            </div>
+          </fieldset>
+
+          <fieldset class="field">
+            <legend class="field__label" data-i18n="casing">Format</legend>
+            <div class="chips">
+              <label class="chip chip--radio"><input type="radio" name="casing" value="lower" /><span data-i18n="casingLower">lowercase</span></label>
+              <label class="chip chip--radio"><input type="radio" name="casing" value="upper" /><span data-i18n="casingUpper">UPPERCASE</span></label>
+              <label class="chip chip--radio"><input type="radio" name="casing" value="capital" /><span data-i18n="casingCapital">Capitalized</span></label>
+              <label class="chip chip--radio"><input type="radio" name="casing" value="camel" /><span data-i18n="casingCamel">camelCase</span></label>
+            </div>
+          </fieldset>
+
+          <label class="switch">
+            <input type="checkbox" role="switch" data-option="upperOneWord" />
+            <span class="switch__text"><span data-i18n="upperOneWord">One word in UPPERCASE</span></span>
+          </label>
+          <label class="switch">
+            <input type="checkbox" role="switch" data-option="addDigit" />
+            <span class="switch__text"><span data-i18n="addDigit">Add a digit</span></span>
+          </label>
+          <label class="switch">
+            <input type="checkbox" role="switch" data-option="addSymbol" aria-describedby="help-add-symbol" />
+            <span class="switch__text">
+              <span data-i18n="addSymbol">Add a symbol</span>
+              <span class="switch__help" id="help-add-symbol" data-i18n="addSymbolHelp">One of ! @ # $ % &amp; * ?</span>
+            </span>
+          </label>
+
+          <p class="field-error" id="passphrase-error" role="alert" hidden></p>
+          <p class="panel__info" id="wordlist-info" aria-live="polite"></p>
         </section>
+
         <section id="panel-pin" class="card panel" role="tabpanel" aria-labelledby="tab-pin" hidden>
           <h2 class="panel__title" data-i18n="optionsTitle">Options</h2>
+
+          <div class="field">
+            <div class="field__row">
+              <label class="field__label" for="pin-length" data-i18n="pinLength">Digits</label>
+              <input class="number-input" id="pin-length-number" type="number" inputmode="numeric" aria-label="Digits" data-i18n-aria-label="pinLength" />
+            </div>
+            <input class="range" id="pin-length" type="range" aria-describedby="pin-warning" />
+          </div>
+
+          <p class="panel__warning" id="pin-warning" data-i18n="pinShortWarning" hidden>PINs shorter than 6 digits are easy to guess.</p>
         </section>
       </div>
     </main>

@@ -6,6 +6,7 @@ import { SYMBOL_GROUP_IDS } from '../core/charsets.js'
 import { ErrorCode, GeneratorError } from '../core/errors.js'
 import { t } from '../i18n.js'
 import { savePrefs } from '../storage.js'
+import { bindRangeNumber, savedInteger } from './controls.js'
 
 const BOOLEAN_OPTIONS = Object.freeze([
   'uppercase',
@@ -30,9 +31,7 @@ export function sanitizeRandomOptions(saved) {
   const options = structuredClone(DEFAULT_PASSWORD_OPTIONS)
   if (!saved || typeof saved !== 'object') return options
 
-  if (Number.isInteger(saved.length)) {
-    options.length = Math.min(PASSWORD_LENGTH.max, Math.max(PASSWORD_LENGTH.min, saved.length))
-  }
+  options.length = savedInteger(saved.length, PASSWORD_LENGTH, options.length)
   for (const key of BOOLEAN_OPTIONS) {
     if (typeof saved[key] === 'boolean') options[key] = saved[key]
   }
@@ -64,9 +63,18 @@ export function createRandomView({ result, saved }) {
     savePrefs({ random: state })
   }
 
+  const renderLength = bindRangeNumber({
+    range,
+    number,
+    min: PASSWORD_LENGTH.min,
+    max: PASSWORD_LENGTH.max,
+    onChange: (length) => {
+      if (length !== state.length) update({ length })
+    },
+  })
+
   function renderControls() {
-    range.value = String(state.length)
-    number.value = String(state.length)
+    renderLength(state.length)
     for (const element of panel.querySelectorAll('button[data-option]')) {
       element.setAttribute('aria-pressed', String(state[element.dataset.option]))
     }
@@ -116,21 +124,6 @@ export function createRandomView({ result, saved }) {
     persist()
     generate()
   }
-
-  function setLength(value) {
-    if (!Number.isInteger(value)) return
-    const length = Math.min(PASSWORD_LENGTH.max, Math.max(PASSWORD_LENGTH.min, value))
-    if (length !== state.length) update({ length })
-    else renderControls()
-  }
-
-  range.addEventListener('input', () => setLength(Number(range.value)))
-  // Typing in the number field applies valid values immediately and clamps on commit.
-  number.addEventListener('input', () => {
-    const value = Number(number.value)
-    if (Number.isInteger(value) && value >= PASSWORD_LENGTH.min && value <= PASSWORD_LENGTH.max) setLength(value)
-  })
-  number.addEventListener('change', () => setLength(Math.round(Number(number.value)) || state.length))
 
   for (const button of panel.querySelectorAll('button[data-option]')) {
     button.addEventListener('click', () => {

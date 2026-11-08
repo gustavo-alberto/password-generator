@@ -74,6 +74,30 @@ export default Object.freeze({
   alsoInclude: 'Also include',
   excludeChars: 'Exclude',
 
+  // Passphrase options
+  wordCount: 'Words',
+  separator: 'Separator',
+  separatorSpace: 'Space',
+  separatorCustom: 'Custom',
+  separatorCustomLabel: 'Custom separator',
+  casing: 'Format',
+  casingLower: 'lowercase',
+  casingUpper: 'UPPERCASE',
+  casingCapital: 'Capitalized',
+  casingCamel: 'camelCase',
+  upperOneWord: 'One word in UPPERCASE',
+  addDigit: 'Add a digit',
+  addSymbol: 'Add a symbol',
+  addSymbolHelp: 'One of ! @ # $ % & * ?',
+  wordlistInfo: 'Wordlist: {name} · {size} words',
+  wordlistNameEn: 'EFF (English)',
+  wordlistNamePt: 'drebs (Brazilian Portuguese)',
+  loadingWordlist: 'Loading wordlist…',
+
+  // PIN options
+  pinLength: 'Digits',
+  pinShortWarning: 'PINs shorter than 6 digits are easy to guess.',
+
   // Errors
   errCrypto: "Your browser doesn't provide secure random numbers, so nothing can be generated.",
   errCopy: "Couldn't copy. Select and copy it manually.",
@@ -81,6 +105,8 @@ export default Object.freeze({
   errTooShort: 'Length is smaller than the number of groups',
   errTooManyAttempts: 'These options are too restrictive. Try a longer length.',
   errInvalidLength: 'Enter a value from {min} to {max}',
+  errInvalidSeparator: 'Use up to 3 visible characters as separator',
+  errWordlist: "Couldn't load the wordlist. Check your connection and try again.",
 
   // Footer
   footerPrivacy: 'No password is sent or stored. Everything happens in your browser.',

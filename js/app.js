@@ -6,6 +6,8 @@ import { loadPrefs, savePrefs } from './storage.js'
 import { hasSecureRandom } from './core/random.js'
 import { createResultView } from './ui/result.js'
 import { createRandomView } from './ui/random-view.js'
+import { createPassphraseView } from './ui/passphrase-view.js'
+import { createPinView } from './ui/pin-view.js'
 
 const THEME_GLYPHS = Object.freeze({ light: '☾', dark: '☀' })
 const MODES = Object.freeze(['random', 'passphrase', 'pin'])
@@ -97,6 +99,8 @@ function init() {
   const result = createResultView()
   const views = {
     random: createRandomView({ result, saved: prefs.random }),
+    passphrase: createPassphraseView({ result, saved: prefs.passphrase }),
+    pin: createPinView({ result, saved: prefs.pin }),
   }
   const modes = initModes({ views, result, initialMode: prefs.mode })
 
