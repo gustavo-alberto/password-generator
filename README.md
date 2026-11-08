@@ -31,6 +31,20 @@ npm test
 
 Uses Node's built-in test runner (`node --test`), no dependencies.
 
+## Credits
+
+Passphrases use these wordlists (7776 words each, about 12.9 bits of entropy per word):
+
+| Language | Wordlist | Author | License |
+|---|---|---|---|
+| English | [EFF Large Wordlist for Passphrases](https://www.eff.org/dice) | Electronic Frontier Foundation | [CC BY 3.0 US](https://creativecommons.org/licenses/by/3.0/us/) |
+| Portuguese (Brazil) | [wordlist_pt-br.txt](https://github.com/ulif/diceware/blob/master/diceware/wordlists/wordlist_pt-br.txt), from the [diceware](https://github.com/ulif/diceware) project | drebs | [CC BY 3.0](https://creativecommons.org/licenses/by/3.0/) |
+
+Changes made to the lists:
+
+- Both lists were converted to JavaScript modules (`js/wordlists/`) by [`scripts/build-wordlist.mjs`](scripts/build-wordlist.mjs).
+- In the Portuguese list, 10 offensive or violent words were replaced in place by neutral words that were not already in the list. This keeps the size at 7776 and the entropy per word unchanged. The full mapping is in `scripts/build-wordlist.mjs`.
+
 ## License
 
-[MIT](LICENSE) © Gustavo Alberto
+The code is under the [MIT](LICENSE) license © Gustavo Alberto. The wordlists keep their own licenses, listed above.
