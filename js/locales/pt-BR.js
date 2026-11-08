@@ -114,6 +114,8 @@ export default Object.freeze({
 
   // Footer
   footerPrivacy: 'Nenhuma senha é enviada ou armazenada. Tudo acontece no seu navegador.',
+  creditsWordlists: 'Listas de palavras:',
+  creditsFonts: 'Fontes:',
   sourceCode: 'Código-fonte',
   license: 'Licença MIT',
 })

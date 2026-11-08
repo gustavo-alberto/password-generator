@@ -2,7 +2,38 @@
 
 Password, passphrase and PIN generator that runs entirely in your browser. Nothing is sent, nothing is stored.
 
-> **Status:** in development.
+**Use it:** https://gustavo-alberto.github.io/password-generator/
+
+Available in English and Brazilian Portuguese, with light and dark themes. It works offline after the first visit.
+
+## Features
+
+**Random passwords** (inspired by KeePassXC)
+
+- Length from 4 to 128 characters.
+- Uppercase, lowercase, digits and symbols. Symbols are split into six groups: brackets, punctuation, quotes, dashes and slashes, math, and logograms.
+- Optional extended ASCII (Latin-1).
+- Exclude look-alike characters (`I l 1 | O 0`), add your own characters, or exclude specific ones.
+- "At least one from each group", enforced by redrawing the whole password, so every valid password stays equally likely.
+
+**Passphrases**
+
+- 3 to 20 words from a 7776-word list in the interface language: EFF in English, drebs in Brazilian Portuguese.
+- Any separator up to 3 characters, and lowercase, UPPERCASE, Capitalized or camelCase format.
+- Optional extras: one word in UPPERCASE, one digit, one symbol.
+
+**PINs**
+
+- 4 to 32 digits.
+
+**For every mode**
+
+- Strength meter with entropy in bits, using the KeePassXC bands: poor below 40 bits, weak below 75, good below 100, excellent from 100.
+- Estimated time to crack, assuming 10 billion guesses per second.
+- Digits and symbols are colored for readability.
+- Hide/show the result.
+- Copy with clear feedback.
+- Generate a list of 5, 10, 25 or 50 at once.
 
 ## Principles
 
@@ -10,6 +41,23 @@ Password, passphrase and PIN generator that runs entirely in your browser. Nothi
 - **Nothing is stored.** Only interface preferences (mode, options, language and theme) are kept in `localStorage`. Generated passwords are never saved.
 - **Cryptographic, unbiased randomness.** Every draw uses `crypto.getRandomValues` with rejection sampling. There is no `Math.random` fallback.
 - **Zero dependencies.** Plain HTML, CSS and JavaScript (ES modules), no build step. The published code is the repository code.
+
+### Security notes
+
+- The Content Security Policy is set with a `<meta>` tag: no inline scripts or styles, no remote origins, no network connections. GitHub Pages does not allow custom HTTP headers, so `frame-ancestors` (clickjacking protection) cannot be set. The page holds no session or account, which keeps that risk low.
+- Generated values are inserted with `textContent`, never parsed as HTML.
+- The entropy shown describes the generator settings (how many equally likely results exist), not a guess at how a given string looks. It is the meaningful measure for random secrets.
+- `tests/security.test.js` checks the CSP, the absence of inline code, `innerHTML`, `eval` and network APIs, and the `rel` attributes of external links.
+
+## Deploying to GitHub Pages
+
+The repository root is the site. There is nothing to build.
+
+1. Go to **Settings → Pages**.
+2. Under **Build and deployment**, choose **Deploy from a branch**.
+3. Pick the `main` branch and the `/ (root)` folder, then save.
+
+The empty `.nojekyll` file tells Pages to serve the files as they are, without Jekyll processing. All paths are relative, so the app works under `/password-generator/`.
 
 ## Running locally
 
@@ -45,7 +93,21 @@ On `localhost` the service worker stays off, so local edits show up immediately.
 npm test
 ```
 
-Uses Node's built-in test runner (`node --test`), no dependencies.
+Uses Node's built-in test runner (`node --test`), no dependencies. The suite covers generators, chi-square uniformity checks, entropy (cross-checked by brute force), wordlists, i18n, storage, precache coverage and static security rules.
+
+## Project structure
+
+```
+index.html            page and CSP
+sw.js                 offline cache
+css/                  styles and @font-face
+js/core/              generators, entropy, wordlists (no DOM, tested in Node)
+js/ui/                result area, option panels, bulk list
+js/locales/           en and pt-BR strings
+js/wordlists/         generated wordlist modules
+scripts/              local server, wordlist and icon builders
+tests/                node:test suites
+```
 
 ## Credits
 

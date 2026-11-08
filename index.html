@@ -30,12 +30,12 @@
 
     <header class="site-header">
       <div class="container site-header__inner">
-        <p class="brand">
+        <h1 class="brand">
           <svg class="brand__icon" aria-hidden="true" viewBox="0 0 24 24" width="24" height="24">
             <use href="icons/icon.svg#mark"></use>
           </svg>
           <span data-i18n="appName">Password generator</span>
-        </p>
+        </h1>
         <div class="site-header__actions">
           <div class="lang-switch" role="group" aria-label="Language" data-i18n-aria-label="language">
             <button type="button" class="lang-switch__btn" data-lang="pt-BR" lang="pt-BR" aria-label="Português" aria-pressed="false">PT</button>
@@ -62,7 +62,8 @@
 
         <section class="card result" aria-labelledby="result-title">
           <h2 id="result-title" class="visually-hidden" data-i18n="resultTitle">Result</h2>
-          <output id="result-output" class="result__output" translate="no" aria-describedby="strength-label">—</output>
+          <!-- aria-live="off": <output> is a live region by default and would read every secret aloud. -->
+          <output id="result-output" class="result__output" translate="no" aria-live="off" aria-describedby="strength-label">—</output>
 
           <div class="meter" id="strength-meter" data-level="0" aria-hidden="true">
             <span class="meter__seg"></span>
@@ -283,8 +284,19 @@
       <div class="container site-footer__inner">
         <p data-i18n="footerPrivacy">No password is sent or stored. Everything happens in your browser.</p>
         <p>
+          <span data-i18n="creditsWordlists">Wordlists:</span>
+          <a href="https://www.eff.org/dice" rel="noopener noreferrer">EFF</a> (CC BY 3.0 US) ·
+          <a href="https://github.com/ulif/diceware/blob/master/diceware/wordlists/wordlist_pt-br.txt" rel="noopener noreferrer">drebs</a> (CC BY 3.0)
+        </p>
+        <p>
+          <span data-i18n="creditsFonts">Fonts:</span>
+          <a href="https://github.com/JetBrains/JetBrainsMono" rel="noopener noreferrer">JetBrains Mono</a> ·
+          <a href="https://github.com/floriankarsten/space-grotesk" rel="noopener noreferrer">Space Grotesk</a> (OFL 1.1)
+        </p>
+        <p>
           <a href="https://github.com/gustavo-alberto/password-generator" rel="noopener noreferrer" data-i18n="sourceCode">Source code</a>
-          · <span data-i18n="license">MIT License</span>
+          ·
+          <a href="https://github.com/gustavo-alberto/password-generator/blob/main/LICENSE" rel="noopener noreferrer" data-i18n="license">MIT License</a>
         </p>
       </div>
     </footer>

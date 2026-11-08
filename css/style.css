@@ -604,7 +604,7 @@ fieldset {
 
 .text-input::placeholder {
   color: var(--text-muted);
-  opacity: 0.8;
+  opacity: 1;
 }
 
 .range {

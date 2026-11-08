@@ -114,6 +114,8 @@ export default Object.freeze({
 
   // Footer
   footerPrivacy: 'No password is sent or stored. Everything happens in your browser.',
+  creditsWordlists: 'Wordlists:',
+  creditsFonts: 'Fonts:',
   sourceCode: 'Source code',
   license: 'MIT License',
 })
