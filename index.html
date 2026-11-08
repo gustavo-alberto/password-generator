@@ -18,6 +18,8 @@
     <title>Password generator</title>
     <link rel="icon" href="icons/icon.svg" type="image/svg+xml" />
     <link rel="stylesheet" href="css/style.css" />
+    <script src="js/theme-init.js"></script>
+    <script type="module" src="js/app.js"></script>
   </head>
   <body>
     <a class="skip-link" href="#main" data-i18n="skipToContent">Skip to content</a>
@@ -32,17 +34,16 @@
         </p>
         <div class="site-header__actions">
           <div class="lang-switch" role="group" aria-label="Language" data-i18n-aria-label="language">
-            <button type="button" class="lang-switch__btn" data-lang="pt-BR" aria-pressed="false">PT</button>
-            <button type="button" class="lang-switch__btn" data-lang="en" aria-pressed="true">EN</button>
+            <button type="button" class="lang-switch__btn" data-lang="pt-BR" lang="pt-BR" aria-label="Português" aria-pressed="false">PT</button>
+            <button type="button" class="lang-switch__btn" data-lang="en" lang="en" aria-label="English" aria-pressed="true">EN</button>
           </div>
           <button
             type="button"
             class="icon-btn"
             id="theme-toggle"
-            aria-label="Toggle theme"
-            data-i18n-aria-label="toggleTheme"
+            aria-label="Switch to dark theme"
           >
-            <span class="icon-btn__glyph" aria-hidden="true">◐</span>
+            <span class="icon-btn__glyph" aria-hidden="true">☾</span>
           </button>
         </div>
       </div>
