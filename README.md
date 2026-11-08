@@ -23,6 +23,22 @@ Open `http://127.0.0.1:8080/`. To use another port: `node scripts/serve.mjs 3000
 
 > Opening `index.html` straight from disk (`file://`) does not work, because ES modules require an HTTP server.
 
+## Offline use
+
+After the first visit, a service worker (`sw.js`) keeps every app file in the browser cache, so the generator also works without a connection. It can be installed as an app from the browser menu.
+
+On `localhost` the service worker stays off, so local edits show up immediately. Add `?sw` to the URL (`http://127.0.0.1:8080/?sw`) to test offline mode locally.
+
+### Releasing a change
+
+1. Bump `CACHE_VERSION` in `sw.js`. Otherwise returning visitors keep the previous files.
+2. Add any new app file to `PRECACHE` in `sw.js`. `npm test` fails when one is missing.
+
+## Regenerating assets
+
+- Wordlists: `node scripts/build-wordlist.mjs <en-eff|pt-br-drebs> <input.txt>`.
+- Icons: `node scripts/build-icons.mjs` renders the PNG icons from the padlock in `icons/icon.svg`.
+
 ## Tests
 
 ```bash

@@ -85,6 +85,19 @@ function showInsecureEnvironment() {
   for (const button of document.querySelectorAll('[data-action]')) button.disabled = true
 }
 
+/**
+ * Registers the offline service worker. On localhost it stays off so edits show up
+ * immediately; add ?sw to the URL to test offline mode locally.
+ */
+function registerServiceWorker() {
+  if (!('serviceWorker' in navigator)) return
+  const isLocal = ['localhost', '127.0.0.1', '[::1]'].includes(location.hostname)
+  if (isLocal && !new URLSearchParams(location.search).has('sw')) return
+  navigator.serviceWorker.register('./sw.js').catch(() => {
+    // Offline support is optional; the app works without it.
+  })
+}
+
 function init() {
   const prefs = loadPrefs()
   initHeader()
@@ -116,6 +129,8 @@ function init() {
     for (const view of Object.values(views)) view.refreshLabels()
     bulk.refreshLabels()
   })
+
+  registerServiceWorker()
 }
 
 init()
