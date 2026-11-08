@@ -41,6 +41,7 @@ export function createPinView({ result, saved }) {
   return {
     panel,
     generate,
+    generateMany: (count) => Array.from({ length: count }, () => generatePin(state.length).value),
     activate() {
       active = true
       generate()

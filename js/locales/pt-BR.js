@@ -28,6 +28,10 @@ export default Object.freeze({
   newSecretGenerated: 'Novo resultado gerado',
   copiedAnnouncement: 'Copiado para a área de transferência',
   bulkTitle: 'Gerar várias',
+  bulkQuantity: 'Quantidade',
+  bulkGenerate: 'Gerar lista',
+  copyAll: 'Copiar todas',
+  copyItem: 'Copiar item {index}',
   optionsTitle: 'Opções',
 
   // Strength and crack time

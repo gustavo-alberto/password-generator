@@ -8,6 +8,7 @@ import { createResultView } from './ui/result.js'
 import { createRandomView } from './ui/random-view.js'
 import { createPassphraseView } from './ui/passphrase-view.js'
 import { createPinView } from './ui/pin-view.js'
+import { createBulkView } from './ui/bulk.js'
 
 const THEME_GLYPHS = Object.freeze({ light: '☾', dark: '☀' })
 const MODES = Object.freeze(['random', 'passphrase', 'pin'])
@@ -102,7 +103,10 @@ function init() {
     passphrase: createPassphraseView({ result, saved: prefs.passphrase }),
     pin: createPinView({ result, saved: prefs.pin }),
   }
-  const modes = initModes({ views, result, initialMode: prefs.mode })
+  // Created before the modes so it hears the first result.
+  let modes = null
+  const bulk = createBulkView({ result, getView: () => views[modes?.current()], saved: prefs.bulk })
+  modes = initModes({ views, result, initialMode: prefs.mode })
 
   for (const button of document.querySelectorAll('[data-action="generate"]')) {
     button.addEventListener('click', () => views[modes.current()]?.generate())
@@ -110,6 +114,7 @@ function init() {
   document.addEventListener(LANGUAGE_CHANGE_EVENT, () => {
     result.refreshLabels()
     for (const view of Object.values(views)) view.refreshLabels()
+    bulk.refreshLabels()
   })
 }
 

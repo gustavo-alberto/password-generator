@@ -174,9 +174,21 @@ export function createPassphraseView({ result, saved }) {
 
   renderControls()
 
+  /** Generates several passphrases; [] while the wordlist loads or the options are invalid. */
+  function generateMany(count) {
+    if (!wordlist || wordlist.language !== getLanguage()) return []
+    try {
+      return Array.from({ length: count }, () => generatePassphrase(state, wordlist.words).value)
+    } catch (error) {
+      if (error instanceof GeneratorError) return []
+      throw error
+    }
+  }
+
   return {
     panel,
     generate,
+    generateMany,
     activate() {
       active = true
       renderInfo()

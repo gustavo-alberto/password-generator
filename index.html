@@ -91,7 +91,23 @@
 
         <details class="card disclosure" id="bulk">
           <summary class="disclosure__summary" data-i18n="bulkTitle">Generate several</summary>
-          <div class="disclosure__body" id="bulk-body"></div>
+          <div class="disclosure__body bulk">
+            <fieldset class="field">
+              <legend class="field__label" data-i18n="bulkQuantity">How many</legend>
+              <div class="chips">
+                <label class="chip chip--radio"><input type="radio" name="bulk-count" value="5" /><span>5</span></label>
+                <label class="chip chip--radio"><input type="radio" name="bulk-count" value="10" /><span>10</span></label>
+                <label class="chip chip--radio"><input type="radio" name="bulk-count" value="25" /><span>25</span></label>
+                <label class="chip chip--radio"><input type="radio" name="bulk-count" value="50" /><span>50</span></label>
+              </div>
+            </fieldset>
+            <div class="bulk__actions">
+              <button type="button" class="btn" data-bulk-action="generate" data-i18n="bulkGenerate">Generate list</button>
+              <button type="button" class="btn" data-bulk-action="copy-all" data-i18n="copyAll" hidden>Copy all</button>
+            </div>
+            <p class="field-error" id="bulk-error" role="alert" hidden></p>
+            <ol class="bulk__list" id="bulk-list" translate="no"></ol>
+          </div>
         </details>
       </div>
 

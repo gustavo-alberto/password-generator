@@ -152,9 +152,20 @@ export function createRandomView({ result, saved }) {
 
   renderControls()
 
+  /** Generates several passwords with the current options; [] when the options are invalid. */
+  function generateMany(count) {
+    try {
+      return Array.from({ length: count }, () => generatePassword(state).value)
+    } catch (error) {
+      if (error instanceof GeneratorError) return []
+      throw error
+    }
+  }
+
   return {
     panel,
     generate,
+    generateMany,
     activate() {
       active = true
       generate()

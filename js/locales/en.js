@@ -28,6 +28,10 @@ export default Object.freeze({
   newSecretGenerated: 'New result generated',
   copiedAnnouncement: 'Copied to clipboard',
   bulkTitle: 'Generate several',
+  bulkQuantity: 'How many',
+  bulkGenerate: 'Generate list',
+  copyAll: 'Copy all',
+  copyItem: 'Copy item {index}',
   optionsTitle: 'Options',
 
   // Strength and crack time

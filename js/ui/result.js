@@ -14,6 +14,31 @@ function classify(char) {
   return 'char--symbol'
 }
 
+/**
+ * Renders a secret into an element: digits and symbols get their own color, or every
+ * character becomes a bullet when hidden. Uses text nodes only, never HTML parsing.
+ */
+export function renderSecret(element, value, hidden = false) {
+  const chars = Array.from(value)
+  if (hidden) {
+    element.textContent = MASK_CHAR.repeat(chars.length)
+    return
+  }
+  const fragment = document.createDocumentFragment()
+  for (const char of chars) {
+    const className = classify(char)
+    if (className) {
+      const span = document.createElement('span')
+      span.className = className
+      span.textContent = char
+      fragment.append(span)
+    } else {
+      fragment.append(char)
+    }
+  }
+  element.replaceChildren(fragment)
+}
+
 export function createResultView(root = document) {
   const output = root.getElementById('result-output')
   const meter = root.getElementById('strength-meter')
@@ -29,30 +54,18 @@ export function createResultView(root = document) {
   let announceTimer = 0
   let copiedTimer = 0
 
+  const listeners = new Set()
+
+  function notify(reason) {
+    for (const listener of listeners) listener({ reason, hasValue: current !== null, hidden })
+  }
+
   function renderOutput() {
-    output.replaceChildren()
     if (!current) {
       output.textContent = '—'
       return
     }
-    const chars = Array.from(current.value)
-    if (hidden) {
-      output.textContent = MASK_CHAR.repeat(chars.length)
-      return
-    }
-    const fragment = document.createDocumentFragment()
-    for (const char of chars) {
-      const className = classify(char)
-      if (className) {
-        const span = document.createElement('span')
-        span.className = className
-        span.textContent = char
-        fragment.append(span)
-      } else {
-        fragment.append(char)
-      }
-    }
-    output.append(fragment)
+    renderSecret(output, current.value, hidden)
   }
 
   function renderStats() {
@@ -117,6 +130,7 @@ export function createResultView(root = document) {
     void output.offsetWidth
     output.classList.add('is-fresh')
     announce(t('newSecretGenerated'))
+    notify('show')
   }
 
   function clear() {
@@ -125,6 +139,7 @@ export function createResultView(root = document) {
     resetCopyFeedback()
     renderOutput()
     renderStats()
+    notify('clear')
   }
 
   async function copy() {
@@ -140,6 +155,7 @@ export function createResultView(root = document) {
         hidden = false
         renderVisibility()
         renderOutput()
+        notify('visibility')
       }
       selectOutput()
       return
@@ -157,6 +173,7 @@ export function createResultView(root = document) {
     hidden = !hidden
     renderVisibility()
     renderOutput()
+    notify('visibility')
   }
 
   /** Re-renders translated texts after a language change. */
@@ -171,5 +188,16 @@ export function createResultView(root = document) {
   visibilityButton.addEventListener('click', toggleVisibility)
   renderVisibility()
 
-  return { show, clear, copy, refreshLabels }
+  return {
+    show,
+    clear,
+    copy,
+    refreshLabels,
+    isHidden: () => hidden,
+    /** Calls listener({ reason: 'show'|'clear'|'visibility', hasValue, hidden }) after each change. */
+    onChange(listener) {
+      listeners.add(listener)
+      return () => listeners.delete(listener)
+    },
+  }
 }
