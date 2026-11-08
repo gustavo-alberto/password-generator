@@ -45,6 +45,13 @@ Changes made to the lists:
 - Both lists were converted to JavaScript modules (`js/wordlists/`) by [`scripts/build-wordlist.mjs`](scripts/build-wordlist.mjs).
 - In the Portuguese list, 10 offensive or violent words were replaced in place by neutral words that were not already in the list. This keeps the size at 7776 and the entropy per word unchanged. The full mapping is in `scripts/build-wordlist.mjs`.
 
+### Fonts
+
+Both fonts are self-hosted in `fonts/` (variable, latin subset) and licensed under the [SIL Open Font License 1.1](https://openfontlicense.org/):
+
+- [JetBrains Mono](https://github.com/JetBrains/JetBrainsMono), by The JetBrains Mono Project Authors, for generated passwords. See `fonts/OFL-JetBrainsMono.txt`.
+- [Space Grotesk](https://github.com/floriankarsten/space-grotesk), by The Space Grotesk Project Authors, for the interface. See `fonts/OFL-SpaceGrotesk.txt`.
+
 ## License
 
-The code is under the [MIT](LICENSE) license © Gustavo Alberto. The wordlists keep their own licenses, listed above.
+The code is under the [MIT](LICENSE) license © Gustavo Alberto. The wordlists and fonts keep their own licenses, listed above.

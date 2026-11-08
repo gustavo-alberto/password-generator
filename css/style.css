@@ -551,6 +551,257 @@ button {
 }
 
 /* ==========================================================================
+   Form controls
+   ========================================================================== */
+
+fieldset {
+  min-width: 0;
+  margin: 0;
+  padding: 0;
+  border: 0;
+}
+
+.field {
+  display: grid;
+  gap: var(--space-2);
+}
+
+.field__row {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: var(--space-3);
+}
+
+.field__label {
+  padding: 0;
+  font-weight: 600;
+}
+
+.number-input,
+.text-input {
+  min-height: var(--target);
+  padding: 0 var(--space-3);
+  border: 1px solid var(--border-control);
+  border-radius: var(--radius);
+  background: var(--surface);
+}
+
+.number-input {
+  width: 5.5rem;
+  font-family: var(--font-mono);
+  font-size: 1.0625rem;
+  text-align: center;
+}
+
+.text-input {
+  width: 100%;
+}
+
+.text-input--mono {
+  font-family: var(--font-mono);
+}
+
+.text-input::placeholder {
+  color: var(--text-muted);
+  opacity: 0.8;
+}
+
+.range {
+  width: 100%;
+  height: var(--target);
+  margin: 0;
+  accent-color: var(--accent);
+  cursor: pointer;
+  background: transparent;
+}
+
+.chips {
+  display: flex;
+  flex-wrap: wrap;
+  gap: var(--space-2);
+  margin-top: var(--space-2);
+}
+
+.chip {
+  min-height: var(--target);
+  min-width: var(--target);
+  padding: 0 var(--space-4);
+  border: 1px solid var(--border-control);
+  border-radius: 999px;
+  background: var(--surface);
+  color: var(--text-muted);
+  font-weight: 600;
+  transition:
+    background-color var(--dur) var(--ease),
+    border-color var(--dur) var(--ease),
+    color var(--dur) var(--ease);
+}
+
+.chip:hover {
+  border-color: var(--text);
+}
+
+.chip[aria-pressed='true'] {
+  border-color: var(--accent);
+  background: var(--accent-soft);
+  color: var(--text);
+}
+
+.chip[aria-pressed='true']::before {
+  content: '✓ ';
+  color: var(--accent);
+}
+
+.chip--mono {
+  font-family: var(--font-mono);
+  font-size: 0.9375rem;
+  font-weight: 500;
+}
+
+.switch {
+  display: flex;
+  align-items: flex-start;
+  gap: var(--space-3);
+  min-height: var(--target);
+  padding-block: var(--space-2);
+  cursor: pointer;
+}
+
+.switch input {
+  appearance: none;
+  flex: none;
+  position: relative;
+  width: 44px;
+  height: 26px;
+  margin: 0;
+  border: 1px solid var(--border-control);
+  border-radius: 999px;
+  background: var(--surface-sunken);
+  cursor: pointer;
+  transition: background-color var(--dur) var(--ease);
+}
+
+.switch input::after {
+  content: '';
+  position: absolute;
+  top: 3px;
+  left: 3px;
+  width: 18px;
+  height: 18px;
+  border-radius: 50%;
+  background: var(--text-muted);
+  transition: transform var(--dur) var(--ease);
+}
+
+.switch input:checked {
+  border-color: var(--accent);
+  background: var(--accent);
+}
+
+.switch input:checked::after {
+  background: var(--on-accent);
+  transform: translateX(18px);
+}
+
+.switch__text {
+  display: grid;
+  gap: 2px;
+  padding-top: 2px;
+}
+
+.switch__help {
+  color: var(--text-muted);
+  font-size: 0.875rem;
+}
+
+.field-error {
+  color: var(--danger);
+  font-weight: 600;
+  font-size: 0.9375rem;
+}
+
+.alert {
+  margin-block: var(--space-2);
+  padding: var(--space-3) var(--space-4);
+  border: 1px solid var(--danger);
+  border-radius: var(--radius);
+  color: var(--danger);
+  font-weight: 600;
+}
+
+.subdisclosure {
+  border-top: 1px solid var(--border);
+}
+
+.subdisclosure__summary {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  min-height: var(--target);
+  padding-top: var(--space-3);
+  font-weight: 600;
+  list-style: none;
+  cursor: pointer;
+}
+
+.subdisclosure__summary::-webkit-details-marker {
+  display: none;
+}
+
+.subdisclosure__summary::after {
+  content: '';
+  width: 8px;
+  height: 8px;
+  border-right: 2px solid currentColor;
+  border-bottom: 2px solid currentColor;
+  transform: rotate(45deg) translateY(-2px);
+  transition: transform var(--dur) var(--ease);
+}
+
+.subdisclosure[open] > .subdisclosure__summary::after {
+  transform: rotate(-135deg) translateY(-2px);
+}
+
+.subdisclosure__body {
+  display: grid;
+  gap: var(--space-4);
+  padding-top: var(--space-3);
+}
+
+/* ==========================================================================
+   Result feedback
+   ========================================================================== */
+
+.result__note {
+  display: block;
+  font-size: 0.8125rem;
+}
+
+.result__output.is-fresh {
+  animation: fresh 120ms var(--ease);
+}
+
+@keyframes fresh {
+  from {
+    opacity: 0.35;
+  }
+}
+
+.btn.is-copied {
+  border-color: var(--accent);
+}
+
+.btn--primary.is-copied {
+  filter: none;
+}
+
+.btn:disabled {
+  cursor: not-allowed;
+  opacity: 0.6;
+}
+
+/* ==========================================================================
    Desktop
    ========================================================================== */
 

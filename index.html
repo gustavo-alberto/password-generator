@@ -17,6 +17,8 @@
     <meta name="theme-color" content="#141413" media="(prefers-color-scheme: dark)" />
     <title>Password generator</title>
     <link rel="icon" href="icons/icon.svg" type="image/svg+xml" />
+    <link rel="preload" href="fonts/jetbrains-mono-latin-var.woff2" as="font" type="font/woff2" crossorigin />
+    <link rel="stylesheet" href="css/fonts.css" />
     <link rel="stylesheet" href="css/style.css" />
     <script src="js/theme-init.js"></script>
     <script type="module" src="js/app.js"></script>
@@ -37,58 +39,53 @@
             <button type="button" class="lang-switch__btn" data-lang="pt-BR" lang="pt-BR" aria-label="Português" aria-pressed="false">PT</button>
             <button type="button" class="lang-switch__btn" data-lang="en" lang="en" aria-label="English" aria-pressed="true">EN</button>
           </div>
-          <button
-            type="button"
-            class="icon-btn"
-            id="theme-toggle"
-            aria-label="Switch to dark theme"
-          >
+          <button type="button" class="icon-btn" id="theme-toggle" aria-label="Switch to dark theme">
             <span class="icon-btn__glyph" aria-hidden="true">☾</span>
           </button>
         </div>
       </div>
     </header>
 
+    <p class="container alert" id="crypto-error" role="alert" data-i18n="errCrypto" hidden>
+      Your browser doesn't provide secure random numbers, so nothing can be generated.
+    </p>
+
     <main id="main" class="container layout">
       <div class="layout__primary">
         <div class="mode-tabs" role="tablist" aria-label="Generation mode" data-i18n-aria-label="modeLabel">
-          <button type="button" class="mode-tabs__tab" role="tab" id="tab-random" aria-controls="panel-random" aria-selected="true" data-i18n="modeRandom">Random</button>
-          <button type="button" class="mode-tabs__tab" role="tab" id="tab-passphrase" aria-controls="panel-passphrase" aria-selected="false" tabindex="-1" data-i18n="modePassphrase">Passphrase</button>
-          <button type="button" class="mode-tabs__tab" role="tab" id="tab-pin" aria-controls="panel-pin" aria-selected="false" tabindex="-1" data-i18n="modePin">PIN</button>
+          <button type="button" class="mode-tabs__tab" role="tab" id="tab-random" data-mode="random" aria-controls="panel-random" aria-selected="true" data-i18n="modeRandom">Random</button>
+          <button type="button" class="mode-tabs__tab" role="tab" id="tab-passphrase" data-mode="passphrase" aria-controls="panel-passphrase" aria-selected="false" tabindex="-1" data-i18n="modePassphrase">Passphrase</button>
+          <button type="button" class="mode-tabs__tab" role="tab" id="tab-pin" data-mode="pin" aria-controls="panel-pin" aria-selected="false" tabindex="-1" data-i18n="modePin">PIN</button>
         </div>
 
         <section class="card result" aria-labelledby="result-title">
           <h2 id="result-title" class="visually-hidden" data-i18n="resultTitle">Result</h2>
-          <output
-            id="result-output"
-            class="result__output"
-            spellcheck="false"
-            autocomplete="off"
-            autocapitalize="off"
-            autocorrect="off"
-            translate="no"
-          >—</output>
+          <output id="result-output" class="result__output" translate="no" aria-describedby="strength-label">—</output>
 
-          <div class="meter" aria-hidden="true">
+          <div class="meter" id="strength-meter" data-level="0" aria-hidden="true">
             <span class="meter__seg"></span>
             <span class="meter__seg"></span>
             <span class="meter__seg"></span>
             <span class="meter__seg"></span>
           </div>
           <p class="result__stats">
-            <span id="strength-label" class="result__strength">—</span>
+            <span id="strength-label" class="result__strength"></span>
             <span id="crack-time" class="result__crack"></span>
           </p>
 
           <div class="result__actions">
-            <button type="button" class="btn btn--primary" id="copy-btn" data-i18n="copy">Copy</button>
-            <button type="button" class="btn" id="generate-btn" data-i18n="generate">Generate</button>
-            <button type="button" class="icon-btn" id="visibility-btn" aria-pressed="false" aria-label="Hide" data-i18n-aria-label="hide">
+            <button type="button" class="btn btn--primary" data-action="copy" data-i18n="copy">Copy</button>
+            <button type="button" class="btn" data-action="generate" data-i18n="generate">Generate</button>
+            <button type="button" class="icon-btn" id="visibility-btn" aria-pressed="false" aria-label="Hide">
               <span class="icon-btn__glyph" aria-hidden="true">◉</span>
             </button>
           </div>
 
-          <p class="result__privacy" data-i18n="privacy">Generated in your browser. Nothing is sent.</p>
+          <p class="field-error" id="copy-error" role="alert" hidden></p>
+          <p class="result__privacy">
+            <span data-i18n="privacy">Generated in your browser. Nothing is sent.</span>
+            <span class="result__note" data-i18n="crackAssumption">*at 10 billion guesses per second</span>
+          </p>
           <p id="live-region" class="visually-hidden" aria-live="polite"></p>
         </section>
 
@@ -101,7 +98,88 @@
       <div class="layout__secondary">
         <section id="panel-random" class="card panel" role="tabpanel" aria-labelledby="tab-random">
           <h2 class="panel__title" data-i18n="optionsTitle">Options</h2>
+
+          <div class="field">
+            <div class="field__row">
+              <label class="field__label" for="random-length" data-i18n="length">Length</label>
+              <input
+                class="number-input"
+                id="random-length-number"
+                type="number"
+                inputmode="numeric"
+                min="4"
+                max="128"
+                step="1"
+                aria-label="Length"
+                data-i18n-aria-label="length"
+              />
+            </div>
+            <input class="range" id="random-length" type="range" min="4" max="128" step="1" />
+          </div>
+
+          <fieldset class="field">
+            <legend class="field__label" data-i18n="characters">Characters</legend>
+            <div class="chips">
+              <button type="button" class="chip" data-option="uppercase" aria-pressed="true" aria-label="Uppercase letters" data-i18n-aria-label="groupUppercase">A–Z</button>
+              <button type="button" class="chip" data-option="lowercase" aria-pressed="true" aria-label="Lowercase letters" data-i18n-aria-label="groupLowercase">a–z</button>
+              <button type="button" class="chip" data-option="digits" aria-pressed="true" aria-label="Digits" data-i18n-aria-label="groupDigits">0–9</button>
+              <button type="button" class="chip" data-option="symbols" aria-pressed="true" aria-label="Symbols" data-i18n-aria-label="groupSymbols">#$%</button>
+            </div>
+          </fieldset>
+
+          <p class="field-error" id="random-error" role="alert" hidden></p>
+
+          <details class="subdisclosure">
+            <summary class="subdisclosure__summary" data-i18n="advancedTitle">Advanced options</summary>
+            <div class="subdisclosure__body">
+              <fieldset class="field">
+                <legend class="field__label" data-i18n="symbolGroups">Symbol groups</legend>
+                <div class="chips">
+                  <button type="button" class="chip chip--mono" data-symbol-group="braces" aria-pressed="true" aria-label="Brackets" data-i18n-aria-label="symbolBraces">( ) [ ] { }</button>
+                  <button type="button" class="chip chip--mono" data-symbol-group="punctuation" aria-pressed="true" aria-label="Punctuation" data-i18n-aria-label="symbolPunctuation">. , : ;</button>
+                  <button type="button" class="chip chip--mono" data-symbol-group="quotes" aria-pressed="true" aria-label="Quotes" data-i18n-aria-label="symbolQuotes">" '</button>
+                  <button type="button" class="chip chip--mono" data-symbol-group="dashes" aria-pressed="true" aria-label="Dashes and slashes" data-i18n-aria-label="symbolDashes">\ / | _ -</button>
+                  <button type="button" class="chip chip--mono" data-symbol-group="math" aria-pressed="true" aria-label="Math" data-i18n-aria-label="symbolMath">&lt; &gt; * + ! ? =</button>
+                  <button type="button" class="chip chip--mono" data-symbol-group="logograms" aria-pressed="true" aria-label="Logograms" data-i18n-aria-label="symbolLogograms"># $ % &amp; @ ^ ` ~</button>
+                </div>
+              </fieldset>
+
+              <label class="switch">
+                <input type="checkbox" role="switch" data-option="excludeLookAlikes" aria-describedby="help-look-alikes" />
+                <span class="switch__text">
+                  <span data-i18n="excludeLookAlikes">Exclude look-alike characters</span>
+                  <span class="switch__help" id="help-look-alikes" data-i18n="lookAlikeHelp">Removes I, l, 1, |, O and 0</span>
+                </span>
+              </label>
+
+              <label class="switch">
+                <input type="checkbox" role="switch" data-option="requireEachGroup" />
+                <span class="switch__text">
+                  <span data-i18n="requireEachGroup">Use at least one from each group</span>
+                </span>
+              </label>
+
+              <label class="switch">
+                <input type="checkbox" role="switch" data-option="extended" aria-describedby="help-extended" />
+                <span class="switch__text">
+                  <span data-i18n="extended">Extended ASCII (Latin-1)</span>
+                  <span class="switch__help" id="help-extended" data-i18n="extendedHelp">Many sites reject these characters.</span>
+                </span>
+              </label>
+
+              <div class="field">
+                <label class="field__label" for="random-include" data-i18n="alsoInclude">Also include</label>
+                <input class="text-input text-input--mono" id="random-include" type="text" data-option="include" maxlength="64" spellcheck="false" autocomplete="off" autocapitalize="off" autocorrect="off" placeholder="€£¥" />
+              </div>
+
+              <div class="field">
+                <label class="field__label" for="random-exclude" data-i18n="excludeChars">Exclude</label>
+                <input class="text-input text-input--mono" id="random-exclude" type="text" data-option="exclude" maxlength="128" spellcheck="false" autocomplete="off" autocapitalize="off" autocorrect="off" placeholder="{}[]" />
+              </div>
+            </div>
+          </details>
         </section>
+
         <section id="panel-passphrase" class="card panel" role="tabpanel" aria-labelledby="tab-passphrase" hidden>
           <h2 class="panel__title" data-i18n="optionsTitle">Options</h2>
         </section>
