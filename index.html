@@ -1,0 +1,128 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <meta
+      http-equiv="Content-Security-Policy"
+      content="default-src 'none'; script-src 'self'; style-src 'self'; img-src 'self'; font-src 'self'; manifest-src 'self'; worker-src 'self'; connect-src 'none'; base-uri 'none'; form-action 'none'"
+    />
+    <meta name="referrer" content="no-referrer" />
+    <meta name="color-scheme" content="light dark" />
+    <meta
+      name="description"
+      content="Generate strong passwords, passphrases and PINs right in your browser. Nothing is sent or stored."
+    />
+    <meta name="theme-color" content="#f5f3ee" media="(prefers-color-scheme: light)" />
+    <meta name="theme-color" content="#141413" media="(prefers-color-scheme: dark)" />
+    <title>Password generator</title>
+    <link rel="icon" href="icons/icon.svg" type="image/svg+xml" />
+    <link rel="stylesheet" href="css/style.css" />
+  </head>
+  <body>
+    <a class="skip-link" href="#main" data-i18n="skipToContent">Skip to content</a>
+
+    <header class="site-header">
+      <div class="container site-header__inner">
+        <p class="brand">
+          <svg class="brand__icon" aria-hidden="true" viewBox="0 0 24 24" width="24" height="24">
+            <use href="icons/icon.svg#mark"></use>
+          </svg>
+          <span data-i18n="appName">Password generator</span>
+        </p>
+        <div class="site-header__actions">
+          <div class="lang-switch" role="group" aria-label="Language" data-i18n-aria-label="language">
+            <button type="button" class="lang-switch__btn" data-lang="pt-BR" aria-pressed="false">PT</button>
+            <button type="button" class="lang-switch__btn" data-lang="en" aria-pressed="true">EN</button>
+          </div>
+          <button
+            type="button"
+            class="icon-btn"
+            id="theme-toggle"
+            aria-label="Toggle theme"
+            data-i18n-aria-label="toggleTheme"
+          >
+            <span class="icon-btn__glyph" aria-hidden="true">◐</span>
+          </button>
+        </div>
+      </div>
+    </header>
+
+    <main id="main" class="container layout">
+      <div class="layout__primary">
+        <div class="mode-tabs" role="tablist" aria-label="Generation mode" data-i18n-aria-label="modeLabel">
+          <button type="button" class="mode-tabs__tab" role="tab" id="tab-random" aria-controls="panel-random" aria-selected="true" data-i18n="modeRandom">Random</button>
+          <button type="button" class="mode-tabs__tab" role="tab" id="tab-passphrase" aria-controls="panel-passphrase" aria-selected="false" tabindex="-1" data-i18n="modePassphrase">Passphrase</button>
+          <button type="button" class="mode-tabs__tab" role="tab" id="tab-pin" aria-controls="panel-pin" aria-selected="false" tabindex="-1" data-i18n="modePin">PIN</button>
+        </div>
+
+        <section class="card result" aria-labelledby="result-title">
+          <h2 id="result-title" class="visually-hidden" data-i18n="resultTitle">Result</h2>
+          <output
+            id="result-output"
+            class="result__output"
+            spellcheck="false"
+            autocomplete="off"
+            autocapitalize="off"
+            autocorrect="off"
+            translate="no"
+          >—</output>
+
+          <div class="meter" aria-hidden="true">
+            <span class="meter__seg"></span>
+            <span class="meter__seg"></span>
+            <span class="meter__seg"></span>
+            <span class="meter__seg"></span>
+          </div>
+          <p class="result__stats">
+            <span id="strength-label" class="result__strength">—</span>
+            <span id="crack-time" class="result__crack"></span>
+          </p>
+
+          <div class="result__actions">
+            <button type="button" class="btn btn--primary" id="copy-btn" data-i18n="copy">Copy</button>
+            <button type="button" class="btn" id="generate-btn" data-i18n="generate">Generate</button>
+            <button type="button" class="icon-btn" id="visibility-btn" aria-pressed="false" aria-label="Hide" data-i18n-aria-label="hide">
+              <span class="icon-btn__glyph" aria-hidden="true">◉</span>
+            </button>
+          </div>
+
+          <p class="result__privacy" data-i18n="privacy">Generated in your browser. Nothing is sent.</p>
+          <p id="live-region" class="visually-hidden" aria-live="polite"></p>
+        </section>
+
+        <details class="card disclosure" id="bulk">
+          <summary class="disclosure__summary" data-i18n="bulkTitle">Generate several</summary>
+          <div class="disclosure__body" id="bulk-body"></div>
+        </details>
+      </div>
+
+      <div class="layout__secondary">
+        <section id="panel-random" class="card panel" role="tabpanel" aria-labelledby="tab-random">
+          <h2 class="panel__title" data-i18n="optionsTitle">Options</h2>
+        </section>
+        <section id="panel-passphrase" class="card panel" role="tabpanel" aria-labelledby="tab-passphrase" hidden>
+          <h2 class="panel__title" data-i18n="optionsTitle">Options</h2>
+        </section>
+        <section id="panel-pin" class="card panel" role="tabpanel" aria-labelledby="tab-pin" hidden>
+          <h2 class="panel__title" data-i18n="optionsTitle">Options</h2>
+        </section>
+      </div>
+    </main>
+
+    <footer class="site-footer">
+      <div class="container site-footer__inner">
+        <p data-i18n="footerPrivacy">No password is sent or stored. Everything happens in your browser.</p>
+        <p>
+          <a href="https://github.com/gustavo-alberto/password-generator" rel="noopener noreferrer" data-i18n="sourceCode">Source code</a>
+          · <span data-i18n="license">MIT License</span>
+        </p>
+      </div>
+    </footer>
+
+    <div class="action-bar">
+      <button type="button" class="btn action-bar__generate" data-action="generate" data-i18n="generate">Generate</button>
+      <button type="button" class="btn btn--primary action-bar__copy" data-action="copy" data-i18n="copy">Copy</button>
+    </div>
+  </body>
+</html>

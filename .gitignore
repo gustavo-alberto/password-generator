@@ -1,0 +1,14 @@
+# Dependencies (the project has none, kept as a safeguard)
+node_modules/
+
+# Operating system
+.DS_Store
+Thumbs.db
+
+# Editors and local tooling
+.vscode/
+.idea/
+.claude/
+
+# Logs
+*.log

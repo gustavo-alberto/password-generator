@@ -1,0 +1,15 @@
+{
+  "name": "password-generator",
+  "version": "0.1.0",
+  "private": true,
+  "description": "Password, passphrase and PIN generator that runs entirely in the browser. Zero dependencies.",
+  "type": "module",
+  "license": "MIT",
+  "scripts": {
+    "serve": "node scripts/serve.mjs",
+    "test": "node --test"
+  },
+  "engines": {
+    "node": ">=20"
+  }
+}
