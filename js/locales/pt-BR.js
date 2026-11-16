@@ -118,4 +118,6 @@ export default Object.freeze({
   creditsFonts: 'Fontes:',
   sourceCode: 'Código-fonte',
   license: 'Licença MIT',
+  footerLinkedin: 'Perfil no LinkedIn (abre em nova aba)',
+  footerGithub: 'Perfil no GitHub (abre em nova aba)',
 })
