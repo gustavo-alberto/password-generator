@@ -522,18 +522,20 @@ button {
   font-size: 0.875rem;
 }
 
+/* Two centred rows: the privacy note, then LinkedIn and GitHub around the author's name. */
 .site-footer__inner {
   display: grid;
+  justify-items: center;
   gap: var(--space-1);
-  padding-block: var(--space-5);
+  padding-block: var(--space-5) var(--space-3);
+  text-align: center;
 }
 
-/* Author row: LinkedIn and GitHub around the name. Only the cursor changes on hover. */
+/* Only the cursor changes on hover. */
 .footer-author-row {
   display: flex;
   align-items: center;
   gap: var(--space-3);
-  margin-top: var(--space-2);
 }
 
 .footer-link {
@@ -544,10 +546,6 @@ button {
   color: inherit;
   text-decoration: none;
   cursor: pointer;
-}
-
-.footer-link:first-child {
-  margin-left: calc((var(--target) - 20px) / -2);
 }
 
 .footer-icon {

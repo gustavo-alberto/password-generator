@@ -4,7 +4,7 @@
 // returning visitors keep the previous version of that file.
 // tests/sw.test.js fails if an app file is missing from PRECACHE.
 
-const CACHE_VERSION = 'v2'
+const CACHE_VERSION = 'v3'
 const CACHE_NAME = `pwgen-${CACHE_VERSION}`
 
 const PRECACHE = [
